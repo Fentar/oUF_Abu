@@ -1010,7 +1010,7 @@ oUF:Factory( function(self)
 		text:SetFont(config.fontNormal, 13, config.fontNormalOutline)
 		table.insert(ns.fontstrings, text)
 		text:ClearAllPoints()
-		text:SetPoint('CENTER', bar)
+		text:SetPoint('CENTER', bar, 0, -1)
 		bar.text = text
 	end	
 end)
