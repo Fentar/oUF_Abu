@@ -168,15 +168,7 @@ local function GetDBUnit(cUnit)
 	elseif cUnit == "focustarget" then
 		return "targettarget"
 	elseif cUnit == "player" then -- can player be vehicle? no it cant
-		if UnitHasVehicleUI('player') then
-			if (UnitVehicleSkin('player') == 'Natural') then
-				return "vehicleorganic"
-			else
-				return "vehicle"
-			end
-		else
-			return "player"
-		end
+		return "player"
 	end
 	return cUnit
 end
@@ -247,9 +239,6 @@ local function UpdatePlayerFrame(self, ...)
 		if self.PowerPrediction.mainBar then
 			self.PowerPrediction.mainBar:SetSize(self.Power:GetSize())
 		end
-		if self.PowerPrediction.altbar then
-			self.PowerPrediction.altbar:SetSize(self.AdditionalPower:GetSize())
-		end
 	end
 
 	self.Health.Value:SetPoint('CENTER', self.Health, data.hpt.x, data.hpt.y)
@@ -284,64 +273,14 @@ local function UpdatePlayerFrame(self, ...)
 	
 	self.PvPIndicator:ClearAllPoints()
 
-	if ( config.showComboPoints ) then
-		ComboPointPlayerFrame:Setup()
-	else
-		ComboPointPlayerFrame:UnregisterAllEvents()
-		ComboPointPlayerFrame:Hide()
-	end
+	self.Name:Hide()
+	self.Level:Show()
 
-	local inVehicle = UnitHasVehicleUI('player')
-
-	if inVehicle then
-		self.Name:Show()
-		self.Level:Hide()
-
-		self.GroupRoleIndicator:SetAlpha(0)
-		self.PvPIndicator:SetPoint('TOPLEFT', self.Texture, 4, -28)
-		self.LeaderIndicator:SetPoint('TOPLEFT', self.Texture, 23, -14)
-		self.RaidTargetIndicator:SetPoint('CENTER', self.Portrait, 'TOP', 0, -5)
-		PlayerFrameVehicleTexture:Show();
-
-		if ( self.classPowerBar ) then
-			self.classPowerBar:Hide();
-		end
-
-		TotemFrame:Hide();
-
-		if ( playerClass == "SHAMAN" ) then
-		elseif ( playerClass == "DRUID" ) then
-			--EclipseBarFrame:Hide();
-		elseif ( playerClass == "DEATHKNIGHT" ) then
-			RuneFrame:Hide();
-		elseif ( playerClass == "PRIEST" ) then
-			PriestBarFrame:Hide();
-		end
-	else
-		self.Name:Hide()
-		self.Level:Show()
-
-		self.GroupRoleIndicator:SetAlpha(1)
-		self.PvPIndicator:SetPoint('TOPLEFT', self.Texture, 23, -23)
-		self.LeaderIndicator:SetPoint('TOPLEFT', self.Portrait, 3, 2)
-		self.RaidTargetIndicator:SetPoint('CENTER', self.Portrait, 'TOP', 0, -1)
-		PlayerFrameVehicleTexture:Hide();
-
-		if ( self.classPowerBar ) then
-			self.classPowerBar:Setup();
-		end
-
-		TotemFrame_Update();
-
-		if ( playerClass == "SHAMAN" ) then
-		elseif ( playerClass == "DRUID" ) then
-			--EclipseBar_UpdateShown(EclipseBarFrame);
-		elseif ( playerClass == "DEATHKNIGHT" ) then
-			RuneFrame:Show();
-		elseif ( playerClass == "PRIEST" ) then
-			PriestBarFrame_CheckAndShow();
-		end
-	end
+	self.GroupRoleIndicator:SetAlpha(1)
+	self.PvPIndicator:SetPoint('TOPLEFT', self.Texture, 23, -23)
+	self.LeaderIndicator:SetPoint('TOPLEFT', self.Portrait, 3, 2)
+	self.RaidTargetIndicator:SetPoint('CENTER', self.Portrait, 'TOP', 0, -1)
+	PlayerFrameVehicleTexture:Hide();
 end
 
 local function UpdateUnitFrameLayout(frame)
@@ -446,10 +385,6 @@ local function CreateUnitLayout(self, unit)
 		else
 			self:SetAttribute(config.focMod.."type"..config.focBut, 'focus')
 		end
-	end
-
-	if self.cUnit == 'arena' then
-		return ns.createArenaLayout(self, unit)
 	end
 
 	local uconfig = ns.config[self.cUnit]
@@ -592,9 +527,9 @@ local function CreateUnitLayout(self, unit)
 		spark:SetSize(5,5)
 		overAbsorbBar.spark = spark
 
-		self:RegisterEvent("UNIT_HEAL_PREDICTION", ns.UpdateHealthOverride)
-		self:RegisterEvent("UNIT_ABSORB_AMOUNT_CHANGED", ns.UpdateHealthOverride)
-		self:RegisterEvent("UNIT_HEAL_ABSORB_AMOUNT_CHANGED", ns.UpdateHealthOverride)
+		--self:RegisterEvent("UNIT_HEAL_PREDICTION", ns.UpdateHealthOverride)
+		--self:RegisterEvent("UNIT_ABSORB_AMOUNT_CHANGED", ns.UpdateHealthOverride)
+		--self:RegisterEvent("UNIT_HEAL_ABSORB_AMOUNT_CHANGED", ns.UpdateHealthOverride)
 		self.Health.Override = ns.UpdateHealthOverride
 		
 		-- Combat CombatFeedbackText 
@@ -629,14 +564,6 @@ local function CreateUnitLayout(self, unit)
 		self.Name.Bg:SetPoint('BOTTOMRIGHT', self.Health, 'TOPRIGHT')
 		self.Name.Bg:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT') 
 		self.Name.Bg:SetTexture(textPath.. 'nameBackground')
-
-		-- alt power bar
-		local altbar = _G["Boss"..unit:match("%d").."TargetFramePowerBarAlt"]
-		UnitPowerBarAlt_Initialize(altbar, unit, (uconfig.scale or 1) * 0.5, "INSTANCE_ENCOUNTER_ENGAGE_UNIT")
-		altbar:SetParent(self)
-		altbar:ClearAllPoints()
-		altbar:SetPoint("TOPRIGHT", self, "TOPLEFT", 0, 5)
-
 	else
 		--[[ 	Icons		]]
 		self.RaidTargetIndicator:SetPoint('CENTER', self.Portrait, 'TOP', 0, -1)
@@ -703,19 +630,6 @@ local function CreateUnitLayout(self, unit)
 	--[[ 	Player Frame		]] --
 	if (self.cUnit == 'player') then	
 	
-		-- Combo Points
-		ComboPointPlayerFrame:ClearAllPoints()
-		ComboPointPlayerFrame:SetParent(self)
-		ComboPointPlayerFrame:SetPoint('TOP', self, 'BOTTOM', 28, 1)
-		ComboPointPlayerFrame.SetPoint = nop
-		ComboPointPlayerFrame:SetFrameLevel(1)
-		ns.PaintFrames(ComboPointPlayerFrame.Background, 0.1)
-
-		-- Totems
-		if ( config[playerClass].showTotems ) then
-			ns.classModule.Totems(self, config, uconfig)
-		end
-
 		-- Alternate Mana Bar
 		if ( config[playerClass].showAdditionalPower ) then
 			ns.classModule.additionalPowerBar(self, config, uconfig)
@@ -729,22 +643,9 @@ local function CreateUnitLayout(self, unit)
  		--Aurabar for a specific buff
  		self.Aurabar = ns.classModule.addAuraBar(self, config, uconfig)
 
- 		--builderspender (white overlay when gaining/losing power)
- 		if ( config.builderSpender ) then
-	 		local FeedbackFrame = CreateFrame('Frame', nil, self.Power, 'BuilderSpenderFrame')
-			FeedbackFrame.BarTexture:SetTexture()
-
-	 		local POWER = CreateFrame('Frame', nil, self.Power, 'FullResourcePulseFrame')
-			self.BuilderSpender = {
-				FeedbackFrame = FeedbackFrame,
-				FullPowerFrame = POWER,
-			}
-			self.Power.Smooth = false
-		end
-
 		-- Power Prediction Bar (Display estimated cost of spells when casting)
 		if ( config.powerPredictionBar ) then
-			local mainBar, altBar
+			local mainBar
 			mainBar = CreateFrame('StatusBar',  self.Power:GetDebugName().."PowerPrediction", self.Power)
 	 		mainBar:SetFrameLevel(self.Power:GetFrameLevel())
 			mainBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar-Glow]], 'BORDER')
@@ -753,19 +654,8 @@ local function CreateUnitLayout(self, unit)
 			mainBar:SetPoint('RIGHT', self.Power:GetStatusBarTexture(), 'RIGHT')
 			mainBar:SetStatusBarColor(1,1,1,.3)
 
-			if ( self.AdditionalPower ) then
-				altBar = CreateFrame('StatusBar', nil, self.AdditionalPower)
-				altBar:SetFrameLevel(self.AdditionalPower:GetFrameLevel())
-				altBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar-Glow]], 'BORDER')
-				altBar:GetStatusBarTexture():SetBlendMode'ADD'
-				altBar:SetReverseFill(true)
-				altBar:SetPoint('RIGHT', self.AdditionalPower:GetStatusBarTexture(), 'RIGHT')
-				altBar:SetStatusBarColor(1,1,1,.3)
-			end
-
 			self.PowerPrediction = {
 				mainBar = mainBar,
-				altBar = altBar
 			}
 		end
 
@@ -787,11 +677,6 @@ local function CreateUnitLayout(self, unit)
 		self.RestingIndicator:SetSize(31, 34)
 		self.RestingIndicator.PostUpdate = updatePlayerStatus
 
-		-- player frame vehicle/normal update
-		self:RegisterEvent('UNIT_ENTERED_VEHICLE', UpdatePlayerFrame)
-		self:RegisterEvent('UNIT_ENTERING_VEHICLE', UpdatePlayerFrame)
-		self:RegisterEvent('UNIT_EXITING_VEHICLE', UpdatePlayerFrame)
-		self:RegisterEvent('UNIT_EXITED_VEHICLE', UpdatePlayerFrame)
 	end
 	
 	--[[ 	Focus & Target Frame		]]
@@ -912,7 +797,7 @@ oUF:Factory( function(self)
 	self:RegisterStyle('oUF_Abu', CreateUnitLayout)
 	self:SetActiveStyle('oUF_Abu')
 	self:RegisterInitCallback(function(self)
-		if self.style == 'oUF_Abu' and self.cUnit ~= 'arena' then
+		if self.style == 'oUF_Abu' then
 			UpdateUnitFrameLayout(self)
 		end 
 	end)
@@ -965,19 +850,6 @@ oUF:Factory( function(self)
 		end
 
 		ns.CreateUnitAnchor(boss[1], boss[1], boss[5], "DIALOG", 'boss1', 'boss2', 'boss3', 'boss4', 'boss5')
-	end
-
-	if (config.showArena) then 
-		local arena = {}
-		for i = 1, 5 do --MAX_ARENA_ENEMIES isnt loaded yet
-			arena[i] = self:Spawn('arena'..i, 'oUF_AbuArenaFrame'..i)
-			if (i == 1) then
-				arena[i]:SetPoint('TOPRIGHT', UIParent)
-			else
-				arena[i]:SetPoint('TOPLEFT', arena[i-1], 'BOTTOMLEFT', 0, -40)
-			end
-		end
-		ns.CreateUnitAnchor(arena[1], arena[1], arena[5], nil, "arena1", "arena2", "arena3", "arena4", "arena5")
 	end
 
 	--[[ MirrorTimers ]]--

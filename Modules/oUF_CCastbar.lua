@@ -74,7 +74,7 @@ events.UNIT_SPELLCAST_START = function(self, event, unit, castID, spellID)
 	if(self.unit ~= unit) then return end
 
 	local castbar = self.CCastbar
-	local name, text, texture, startTime, endTime, isTradeSkill, cast_ID, notInterruptible, spell_id = UnitCastingInfo(unit)
+	local name, text, texture, startTime, endTime, isTradeSkill, cast_ID, notInterruptible, spell_id = CastingInfo(unit)
 	if (not name or not castbar.enableCastbar) then
 		castbar:Hide()
 		return
@@ -273,7 +273,7 @@ events.UNIT_SPELLCAST_CHANNEL_START = function(self, event, unit, castID, spellI
 	if(self.unit ~= unit) then return end
 
 	local castbar = self.CCastbar
-	local name, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo(unit)
+	local name, text, texture, startTime, endTime, isTradeSkill, notInterruptible = ChannelInfo(unit)
 	if (not name or not castbar.enableCastbar) then
 		return
 	end
@@ -593,8 +593,6 @@ local Enable = function(object, unit)
 			object:RegisterEvent("UNIT_SPELLCAST_FAILED", onEvent)
 			object:RegisterEvent("UNIT_SPELLCAST_STOP", onEvent)
 			object:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED", onEvent)
-			object:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE", onEvent)
-			object:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE", onEvent)
 			object:RegisterEvent("UNIT_SPELLCAST_DELAYED", onEvent)
 			object:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START", onEvent)
 			object:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE", onEvent)

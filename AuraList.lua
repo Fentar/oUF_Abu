@@ -2,179 +2,161 @@ local _, ns = ...
 local AuraList = {}
 
 AuraList.Immunity = {
-	1022,	-- Hand of Protection
-	642,	-- Divine Shield (Paladin)
-	47585,	-- Dispersion (Priest)
-	45438,	-- Ice Block
-	46924,	-- Bladestorm
-	19263 ,	-- Deterrence
-	51690,	-- Killing Spree
+	642,	-- Divine Shield Rank 1
+	1020,	-- Divine Shield Rank 2
 }
 
 AuraList.CCImmunity = {
-	1044,	-- Hand of Freedom
-	115018,	-- Desecrated Ground
-	31224,	-- Cloak of Shadows
-	31821,	-- Aura Mastery
-	--49039,	-- Lichborne
-	51271,	-- Pillar of Frost
-	53271,	-- Masters Call
-	8178,	-- Grounding Totem Effect (Grounding Totem)
-	--114028,	-- Mass Spell Reflection
-	23920,	-- Spell Reflection (warrior)
+	18499,	-- Berserker Rage
+	1044,	-- Blessing of Freedom
 }
 
 AuraList.Defensive = {
-	122470,	--Touch of Karma
-	115176,	-- Zen Meditation
-	115203,	-- Fortifying Brew
-	--115610,	-- Temporal Shield
-	116888,	-- Shroud of Purgatory
-	122278,	-- Dampen Harm
-	122783,	-- Diffuse Magic
-	22812,	-- Barskin
-	33206,	-- Pain Suppression
-	47788,	-- Guardian Spirit
-	48707,	-- Anti-Magic Shell
-	48792,	-- Icebound Fortitude
-	498,	-- Divine Protection
+	22812,	-- Barkskin
+	2651,	-- Elune's Grace
 	5277,	-- Evasion
-	61336,	-- Survival Instincts	
-	74001,	-- Combat Readiness
+	22842,	-- Frenzied Regeneration Rank 1
+	22895,	-- Frenzied Regeneration Rank 2
+	22896,	-- Frenzied Regeneration Rank 3
+	2565,	-- Shield Block
 	871,	-- Shield Wall
-	45182,	-- Cheating Death
-	6940,	-- Hand of Sacrifice
-	195181, -- Bone Shield
-	192081, -- IronFur
-	--192083, -- Mark of Ursol
-	212800, -- blur
 }
 
 AuraList.Offensive = {
-	31884,	-- Avenging Wrath
-	185313,	-- Shadow Dance
-	1719,	-- Recklessness
-	12472,	-- Icy Veins
-	102342,	-- Ironbark
-
-	102543,	-- Incarnation: King of the Jungle
-	102560,	-- Incarnation: Chosen of Elune
-	162264, -- Metamorphosis
+	6673,	-- Battle Shout Rank 1
+	5242,	-- Battle Shout Rank 2
+	6192,	-- Battle Shout Rank 3
+	11549,	-- Battle Shout Rank 4
+	11550,	-- Battle Shout Rank 5
+	11551,	-- Battle Shout Rank 6
+	25289,	-- Battle Shout Rank 7
+	2687,	-- Bloodrage
+	5229,	-- Enrage
 }
 
 AuraList.Helpful = {
-	77606,	-- Dark Simulacrum
-	106898,	-- Stampeding Roar
-	108212,	-- Burst of Speed
-	108843, -- Blazing Speed
-	112833,	-- Spectral Guise
-	116841,	-- Tigers Lust
-	118922,	-- Posthaste
-	1850, 	-- Dash
-	2983,	-- Sprint
-	--3411,	-- Intervene
-	66,		-- Invisibility
-	68992,	-- Darkflight (Worgen racial)
-	740,	-- Tranquility
-	77761,	-- Stampeding Roar (bear)
-	77764,	-- Stampeding Roar (cat)
-	85499,	-- Speed of Light
-	--96268 removed,	-- Deaths Advance
-	188501, -- Speci
+	5118, 	-- Aspect of the Cheetah
+	1850,	-- Dash Rank 1
+	9821,	-- Dash Rank 2
+	99,		-- Demoralizing Roar Rank 1
+	1735,	-- Demoralizing Roar Rank 2
+	9490,	-- Demoralizing Roar Rank 3
+	9747,	-- Demoralizing Roar Rank 4
+	9898,	-- Demoralizing Roar Rank 5
+	1160,	-- Demoralizing Shout Rank 1
+	6190,	-- Demoralizing Shout Rank 2
+	11554,	-- Demoralizing Shout Rank 3
+	11555,	-- Demoralizing Shout Rank 4
+	11556,	-- Demoralizing Shout Rank 5
+	676,	-- Disarm
+	2983,	-- Sprint Rank 1
+	8696,	-- Sprint Rank 2
+	11305,	-- Sprint Rank 3
+	740,	-- Tranquility Rank 1
+	8918,	-- Tranquility Rank 2
+	9862,	-- Tranquility Rank 3
+	9863,	-- Tranquility Rank 4
+	29166,	-- Innervate
 }
 
 AuraList.Misc = {
-	118358,	-- Drinking
+	430,	-- Drinking
 }
 
 AuraList.Stun = {
-	--105593 removed,	-- Fist of Justice
-	107570,	-- Storm Bolt
-	108194,	-- Asphyxiate
-	117526,	-- Binding Shot
-	119381,	-- Leg Sweep
-	--119392 removed,	-- Charging Ox Wave
+	5211,	-- Bash Rank 1
+	6798,	-- Bash Rank 2
+	8983,	-- Bash Rank 3
+	100,	-- Charge Rank 1
+	6178,	-- Charge Rank 2
+	11578,	-- Charge Rank 3
 	1833,	-- Cheap Shot
-	24394,	-- Intimidation
-	30283,	-- Shadowfury
-	408,	-- Kidney Shot
-	--44572 removed,	-- Deep Freeze
-	46968,	-- Shockwave
-	47481,	-- Gnaw
-	5211,	-- Bash
-	65929,	-- Charge Stun
-	6770,	-- Sap
-	853,	-- Hammer of Justice
-	--87195 removed,	-- Paralysis 
-	88625,	-- Holy Word: Chastise	
-	89766,	-- Axe Toss 
-	91797,	-- Monstrous Blow (Gnaw with DT)
-	163505,	-- Rake
-	22570,	-- Maim
-	--115001 removed,	-- Remorseless Winter
-	200166,	-- Metamorphosis stun
-	211881,	-- Fel Eruption
-	179057,	-- Chaos Nova
+	1776,	-- Gouge Rank 1
+	1777,	-- Gouge Rank 2
+	8629,	-- Gouge Rank 3
+	11285,	-- Gouge Rank 4
+	11286,	-- Gouge Rank 5
+	853,	-- Hammer of Justice Rank 1
+	5588,	-- Hammer of Justice Rank 2
+	5589,	-- Hammer of Justice Rank 3
+	10308,	-- Hammer of Justice Rank 4
+	20252,	-- Intercept Rank 1
+	20616,	-- Intercept Rank 2
+	20617,	-- Intercept Rank 3
+	408,	-- Kidney Shot Rank 1
+	8643,	-- Kidney Shot Rank 2
+	9005,	-- Pounce Rank 1
+	9823,	-- Pounce Rank 2
+	9827,	-- Pounce Rank 3
 }
 
 AuraList.CC = {
-	33786,	-- Cyclone
-	--102051 removed,	-- Frostjaw
-	102359,	-- Mass Entanglement
-	--10326 removed,	-- Turn Evil
-	105421,	-- Blinding Light
-	--107566,	-- Staggering Shout
-	114404,	-- Void Tendrils
-	115078,	-- Paralysis
-	116706,	-- Disable (2x)
-	118, 	-- Polymorph
-	128405,	-- Narrow Escape
-	--1499 removed,	-- Freezing Trap
-	19386,	-- Wyvern Sting
-	19387, 	-- Entrapment
-	20066,	-- Repentance
-	2094, 	-- Blind
-	31661,	-- Dragons Breath
-	339,	-- Entangling Roots
-	45334,	-- Wild Charge
-	51514, 	-- Hex
-	5246,	-- Intimidating Shout 
-	5484, 	-- Howl of Terror
-	5782,	-- Fear
-	605, 	-- Mind Control
-	6358,	-- Seduction
-	64044,	-- Psychic Horror
-	64803,	-- Entrapment
-	6789, 	-- Death Coil
-	8122,	-- Psychic Scream
-	82691, 	-- Ring of Frost
-	8377,	-- Earthgrab
-	91807, 	-- Shambling Rush (Leap with DT)
-	99,		-- Disorienting Roar
-	1776,	-- Gouge
-	217832, -- imprison (demon)
-	207685, -- Sigil of misery
+	118, 	-- Polymorph Rank 1
+	12824, 	-- Polymorph Rank 2
+	12825, 	-- Polymorph Rank 3
+	12826, 	-- Polymorph Rank 4
+	710,	-- Banish Rank 1
+	18647,	-- Banish Rank 2
+	2094,	-- Blind
+	20909,	-- Counterattack Rank 2
+	20910,	-- Counterattack Rank 3
+	339,	-- Entangling Roots Rank 1
+	1062,	-- Entangling Roots Rank 2
+	5195,	-- Entangling Roots Rank 3
+	5196,	-- Entangling Roots Rank 4
+	9852,	-- Entangling Roots Rank 5
+	9853,	-- Entangling Roots Rank 6
+	5782,	-- Fear Rank 1
+	6213,	-- Fear Rank 2
+	6215,	-- Fear Rank 3
+	1499,	-- Freezing Trap Rank 1
+	14310,	-- Freezing Trap Rank 2
+	14311,	-- Freezing Trap Rank 3
+	2637,	-- Hibernate Rank 1
+	18657,	-- Hibernate Rank 2
+	18658,	-- Hibernate Rank 3
+	5484,	-- Howl of Terror Rank 1
+	17928,	-- Howl of Terror Rank 2
+	5246,	-- Intimidating Shout
+	605,	-- Mind Control Rank 1
+	10911,	-- Mind Control Rank 2
+	10912,	-- Mind Control Rank 3
+	8122,	-- Psychic Scream Rank 1
+	8124,	-- Psychic Scream Rank 2
+	10888,	-- Psychic Scream Rank 3
+	10890,	-- Psychic Scream Rank 4
+	6770,	-- Sap Rank 1
+	2070,	-- Sap Rank 2
+	11297,	-- Sap Rank 3
+	1513,	-- Scare Beast Rank 1
+	14326,	-- Scare Beast Rank 2
+	14327,	-- Scare Beast Rank 3
+	9484,	-- Shackle Undead Rank 1
+	9485,	-- Shackle Undead Rank 2
+	10955,	-- Shackle Undead Rank 3
 }
 
 AuraList.Silence = {
-	1330,	-- Garrote - Silence
-	15487,	-- Silence (priest)
+	15487,	-- Silence (Priest)
 	19647,	-- Spell Lock
-	28730,	-- Arcane Torrent
-	47476,	-- Strangulate
-	81261,	-- Solar Beam
-	204490, -- sigil of silence
+	6552,	-- Pummel Rank 1
+	6554,	-- Pummel Rank 2
+	72,		-- Shield Bash Rank 1
+	1671,	-- Shield Bash Rank 2
+	1672,	-- Shield Bash Rank 3
+	2139,	-- Counterspell
 }
 
 AuraList.Taunt = {
-	56222,	-- Dark Command
-	57604,	-- Death Grip
-	20736,	-- Distracting Shot
 	6795,	-- Growl
-	116189,	-- Provoke
-	62124,	-- Reckoning
 	355,	-- Taunt
-	185245, -- Torment
+	5209,	-- Challenging Roar
+	1161,	-- Challenging Shout
+	694,	-- Mocking Blow Rank 1
+	7400,	-- Mocking Blow Rank 2
+	7402,	-- Mocking Blow Rank 3
+	20559,	-- Mocking Blow Rank 4
+	20560,	-- Mocking Blow Rank 5
 }
 
 for k, v in pairs(AuraList) do

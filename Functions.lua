@@ -170,7 +170,7 @@ do
 		else
 			color = ns.config.TextHealthColor
 		end
-		
+	
 		if uconfig.HealthTag == "DISABLE" then
 			Health.Value:SetText(nil)
 		elseif self.isMouseOver then
@@ -231,13 +231,10 @@ local function updateAbsorbBars(healthbar, unit, curHP, maxHP)
 	local _, maxValue = healthbar:GetMinMaxValues()
 	healthbar.maxValue = maxValue
 
-	local healAbsorb = UnitGetTotalHealAbsorbs(unit) or 0
-	local incHealing = UnitGetIncomingHeals(unit) or 0
-	local totalAbsorb_Value = UnitGetTotalAbsorbs(unit) or 0
+	local healAbsorb = 0
+	local incHealing = 0
+	local totalAbsorb_Value = 0
 
-	if healAbsorb > curHP then
-		healAbsorb = curHP
-	end
 	local texture, endAmount, nextPoint = appendTexture(healthbar, healthbar:GetStatusBarTexture(), healthbar.healAbsorbBar, -healAbsorb, curHP, 'RIGHT')
 
 	local missingHP = maxHP - curHP

@@ -40,10 +40,6 @@ oUF.colors.power["MANA"] = { 0.00, 0.5, 1.00 }
 --oUF.colors.power["AMMOSLOT"] = { 0.80, 0.60, 0.00 }
 --oUF.colors.power["FUEL"] = { 0.0, 0.55, 0.5 }
 
--- To change class colors use a custom class color addon like Class Colors
-ALT_MANA_BAR_PAIR_DISPLAY_INFO.DRUID[1] = true
-ALT_MANA_BAR_PAIR_DISPLAY_INFO.DRUID[3] = true
-
 ------------------------------------------------------------------------
 --  Event handler
 local oUFAbu = CreateFrame("Frame", 'oUFAbu')
@@ -100,7 +96,6 @@ function oUFAbu:ADDON_LOADED(event, addon)
 
 		self:RegisterEvent("MODIFIER_STATE_CHANGED") -- Showing auras
 		self:RegisterEvent("PLAYER_TARGET_CHANGED") --  Target sounds
-		self:RegisterEvent("PLAYER_FOCUS_CHANGED") -- Focus Sounds
 
 		-- Setup Options
 		self:SetupOptions()
@@ -133,10 +128,6 @@ end
 function oUFAbu:PLAYER_TARGET_CHANGED(self, event, ...)
 	CloseDropDownMenus()
 	PlayTargetSounds('target')
-end
-
-function oUFAbu:PLAYER_FOCUS_CHANGED(self, event, ...)
-	PlayTargetSounds('focus')
 end
 
 ----------------------------------------------------------------------

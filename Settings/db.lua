@@ -79,12 +79,6 @@ ns.defaultConfig = {
 	classBar = {},
 
 	-- class stuff
-	DEATHKNIGHT = {
-		showRunes = true,
-		showTotems = true,
-	},
-	DEMONHUNTER = {
-	},
 	DRUID = {
 		showTotems = true,
 		showAdditionalPower = true,
@@ -96,12 +90,6 @@ ns.defaultConfig = {
 		showArcaneStacks = true,
 		showTotems = true,
 	},
-	MONK = {
-		showStagger = true,
-		showChi = true,
-		showTotems = true,
-		showAdditionalPower = true,
-	},
 	PALADIN = {
 		showHolyPower = true,
 		showTotems = true,
@@ -112,6 +100,7 @@ ns.defaultConfig = {
 		showAdditionalPower = true,
 	},
 	ROGUE = {
+		showComboPoints = true,
 	},
 	SHAMAN = {
 		showTotems = true,
@@ -124,8 +113,6 @@ ns.defaultConfig = {
 	WARRIOR = {
 		showTotems = true,
 	},
-
-	showComboPoints = true,
 
 	absorbtexture = 'Interface\\AddOns\\oUF_Abu\\Media\\Texture\\absorbTexture',
 	absorbspark = 'Interface\\AddOns\\oUF_Abu\\Media\\Texture\\absorbSpark',

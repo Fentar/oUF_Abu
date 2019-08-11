@@ -120,11 +120,6 @@ local function Enable(self, unit)
 		assert(type(orbs.maxStacks) == "number", "AuraOrbs.maxStacks isn't a number")
 		assert(type(orbs.spellID) == "number", "AuraOrbs.spellID isn't a number")
 
-		self:RegisterEvent("PLAYER_TALENT_UPDATE", VisibilityPath, true)
-		self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR", VisibilityPath, true)
-		self:RegisterEvent("UNIT_ENTERED_VEHICLE", VisibilityPath)
-		self:RegisterEvent("UNIT_EXITED_VEHICLE", VisibilityPath)
-
 		VisibilityPath(self, "ForceUpdate", unit)
 		self:RegisterEvent("UNIT_AURA", Path)
 
@@ -136,11 +131,6 @@ local function Disable(self)
 	local orbs = self.AuraOrbs
 	if(orbs) then
 		self:UnregisterEvent("UNIT_AURA", Path)
-
-		self:UnregisterEvent("PLAYER_TALENT_UPDATE", VisibilityPath, true)
-		self:UnregisterEvent("UPDATE_OVERRIDE_ACTIONBAR", VisibilityPath, true)
-		self:UnregisterEvent("UNIT_ENTERED_VEHICLE", VisibilityPath)
-		self:UnregisterEvent("UNIT_EXITED_VEHICLE", VisibilityPath)
 
 		orbs:Hide()
 	end

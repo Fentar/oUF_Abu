@@ -77,15 +77,7 @@ local Visibility = function(self, event, unit)
 
 	shouldshow = bar.Visibility and bar.Visibility(self, event, unit)
 
-	if UnitHasVehicleUI("player")
-		or ((HasVehicleActionBar() and UnitVehicleSkin("player") and UnitVehicleSkin("player") ~= "")
-		or (HasOverrideActionBar() and GetOverrideBarSkin() and GetOverrideBarSkin() ~= ""))
-	then
-		if bar:IsShown() then
-			bar:Hide()
-			self:UnregisterEvent("UNIT_AURA", Path)
-		end
-	elseif (shouldshow) then
+	if (shouldshow) then
 		if (not bar.active) then
 			bar.active = true
 			self:RegisterEvent("UNIT_AURA", Path)
@@ -117,11 +109,6 @@ local function Enable(self, unit)
 			bar:SetStatusBarTexture([=[Interface\TargetingFrame\UI-StatusBar]=])
 		end
 		bar:Hide()
-
-		self:RegisterEvent('PLAYER_TALENT_UPDATE', VisibilityPath, true)
-		self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR", VisibilityPath, true)
-		self:RegisterEvent("UNIT_ENTERED_VEHICLE", VisibilityPath)
-		self:RegisterEvent("UNIT_EXITED_VEHICLE", VisibilityPath)
 		VisibilityPath(self)
 
 		bar:SetMinMaxValues(0, 100)
@@ -133,11 +120,6 @@ local function Disable(self)
 	local bar = self.Aurabar
 	if bar then
 		self:UnregisterEvent('UNIT_AURA', Path)
-
-		self:UnregisterEvent('PLAYER_TALENT_UPDATE', VisibilityPath, true)
-		self:UnregisterEvent("UPDATE_OVERRIDE_ACTIONBAR", VisibilityPath, true)
-		self:UnregisterEvent("UNIT_ENTERED_VEHICLE", VisibilityPath)
-		self:UnregisterEvent("UNIT_EXITED_VEHICLE", VisibilityPath)
 		bar:Hide()
 	end
 end

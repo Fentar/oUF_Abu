@@ -1,4 +1,4 @@
-## Interface: 80000
+## Interface: 11302
 ## Author: Abu
 ## Title: oUF_|cffffffffAbu|r
 ## RequiredDeps: oUF
@@ -20,4 +20,3 @@ Functions.lua
 Aurafilter.lua
 
 Layout.lua
-LayoutArena.lua

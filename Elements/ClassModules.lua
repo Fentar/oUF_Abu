@@ -1,64 +1,6 @@
 local _, ns = ...
 ns.classModule = {}
 
-local function updateTotemPosition()
-	local _, class = UnitClass("player")
-	TotemFrame:ClearAllPoints()
-	if ( class == "PALADIN" or class == "DEATHKNIGHT"  ) then
-		local hasPet = oUF_AbuPet and oUF_AbuPet:IsShown();
-		if (hasPet) then
-			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12)
-		else
-			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 17, 0)
-		end
-	elseif ( class == "DRUID" ) then
-		local form  = GetShapeshiftFormID();
-		if ( form == CAT_FORM ) then
-			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 37, -5)
-		else
-			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 57, 0)
-		end
-	elseif ( class == "MAGE" ) then
-		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 0, -12)
-	elseif ( class == "MONK" ) then
-		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12)
-	elseif ( class == "SHAMAN" ) then
-		local form  = GetShapeshiftFormID();
-		if ( ( GetSpecialization() == SPEC_SHAMAN_RESTORATION ) or ( form == 16 ) ) then -- wolf form 
-			TotemFrame:SetPoint('TOP', oUF_AbuPlayer, 'BOTTOM', 27, 2)
-		else
-			TotemFrame:SetPoint('TOP', oUF_AbuPlayer, 'BOTTOM', 27, -10)
-		end		
-	elseif ( class == "WARLOCK" ) then
-		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12)
-	end
-end
-
-function ns.classModule.Totems(self, config, uconfig)
-	TotemFrame:ClearAllPoints()
-	TotemFrame:SetParent(self)
-	TotemFrame:SetScale(uconfig.scale * 0.81)
-
-	for i = 1, MAX_TOTEMS do
-		local _, totemBorder = _G['TotemFrameTotem'..i]:GetChildren()
-		ns.PaintFrames(totemBorder:GetRegions())
-
-		_G['TotemFrameTotem'..i]:SetFrameStrata('LOW')
-		_G['TotemFrameTotem'..i.. 'Duration']:SetParent(totemBorder)
-		_G['TotemFrameTotem'..i.. 'Duration']:SetDrawLayer('OVERLAY')
-		_G['TotemFrameTotem'..i.. 'Duration']:ClearAllPoints()
-		_G['TotemFrameTotem'..i.. 'Duration']:SetPoint('BOTTOM', _G['TotemFrameTotem'..i], 0, 3)
-		_G['TotemFrameTotem'..i.. 'Duration']:SetFont(config.fontNormal, 10, 'OUTLINE')
-		_G['TotemFrameTotem'..i.. 'Duration']:SetShadowOffset(0, 0)
-	end
-
-	_G.TotemFrame_AdjustPetFrame = function() end -- noop these else we'll get taint
-	_G.PlayerFrame_AdjustAttachments = function() end
-
-	hooksecurefunc("TotemFrame_Update", updateTotemPosition)
-	updateTotemPosition()
-end
-
 function ns.classModule.additionalPowerBar(self, config, uconfig)
 	self.AdditionalPower = ns.CreateOutsideBar(self, false, 0, 0, 1)
 	self.AdditionalPower.colorPower = true
@@ -69,20 +11,6 @@ function ns.classModule.additionalPowerBar(self, config, uconfig)
 	self:Tag(self.AdditionalPower.Value, '[abu:additionalpower]')
 end
 
-function ns.classModule.DEATHKNIGHT(self, config, uconfig)
-	if (config.DEATHKNIGHT.showRunes) then
-		RuneFrame:SetParent(self)
-		RuneFrame:ClearAllPoints()
-		RuneFrame:SetPoint('TOP', self, 'BOTTOM', 33, -1)
-		if (ns.config.playerStyle == 'normal') then 
-			RuneFrame:SetFrameStrata("LOW");
-		end
-		for k, v in next, RuneFrame.Runes do
-			ns.PaintFrames(v.Rune, 0.3)
-		end
-	end
-end
-
 function ns.classModule.MAGE(self, config, uconfig)
 	if (config.MAGE.showArcaneStacks) then
 		MageArcaneChargesFrame:SetParent(self)
@@ -90,36 +18,6 @@ function ns.classModule.MAGE(self, config, uconfig)
 		MageArcaneChargesFrame:SetPoint('TOP', self, 'BOTTOM', 30, -0.5)
 		--ns.PaintFrames(select(2, MonkHarmonyBar:GetRegions()), 0.1)
 		return MageArcaneChargesFrame
-	end
-end
-
-function ns.classModule.MONK(self, config, uconfig)
-	if (config.MONK.showStagger) then
-		-- Stagger Bar for tank monk
-		MonkStaggerBar:SetParent(self)
-		MonkStaggerBar:SetScale(uconfig.scale * .81)
-		MonkStaggerBar_OnLoad(MonkStaggerBar)
-		MonkStaggerBar:ClearAllPoints()
-		MonkStaggerBar:SetPoint('TOP', self, 'BOTTOM', 31, 0)
-		ns.PaintFrames(MonkStaggerBar.MonkBorder, 0.3)
-		MonkStaggerBar:SetFrameLevel(1)
-	end
-
-	if (config.MONK.showChi) then
-		-- Monk combo points for Windwalker
-		MonkHarmonyBarFrame:SetParent(self)
-		MonkHarmonyBarFrame:SetScale(uconfig.scale * 0.81)
-		MonkHarmonyBarFrame:ClearAllPoints()
-		MonkHarmonyBarFrame:SetPoint('TOP', self, 'BOTTOM', 31, 18)
-		local _, bg = MonkHarmonyBarFrame:GetRegions()
-		bg:SetDrawLayer("BACKGROUND")
-		MonkHarmonyBarFrame:SetFrameLevel(2)
-		ns.PaintFrames(bg, 0.1)
-
-		for _,ball in pairs({MonkHarmonyBarFrame:GetChildren()}) do
-			ball:EnableMouse(false)
-		end
-		return MonkHarmonyBarFrame
 	end
 end
 
@@ -141,6 +39,40 @@ function ns.classModule.PRIEST(self, config, uconfig)
 		InsanityBarFrame:ClearAllPoints()
 		InsanityBarFrame:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', 52, -50)
 		return InsanityBarFrame
+	end
+end
+
+function ns.classModule.ROGUE(self, config, uconfig)
+	if (config.ROGUE.showComboPoints) then
+		local ComboPoints = CreateFrame("Frame", self:GetName()..'ComboPointsBar', self)
+		ComboPoints:SetFrameStrata(self:GetFrameStrata())
+		ComboPoints:SetWidth(100)
+		ComboPoints:SetHeight(21)
+		ComboPoints:SetPoint('TOP', self, 'BOTTOM', 29, -4)
+
+		local ComboPointTexture = "Interface\\Addons\\oUF_Abu\\Media\\Texture\\classoverlaycombopoints.blp"
+
+		for i = 1, 5 do
+			ComboPoints[i] = CreateFrame("Frame", nil, ComboPoints)
+			ComboPoints[i]:SetWidth(20)
+			ComboPoints[i]:SetHeight(21)
+			ComboPoints[i].Background = ComboPoints[i]:CreateTexture(nil, "BACKGROUND")
+			ComboPoints[i].Background:SetAllPoints(ComboPoints[i])
+			ComboPoints[i].Background:SetTexture(ComboPointTexture)
+			ComboPoints[i].Background:SetTexCoord(0.609375, 0.765625, 0.328125, 0.65625)
+			ComboPoints[i].Texture = ComboPoints[i]:CreateTexture(nil, "ARTWORK")
+			ComboPoints[i].Texture:SetAllPoints(ComboPoints[i])
+			ComboPoints[i].Texture:SetTexture(ComboPointTexture)
+			ComboPoints[i].Texture:SetTexCoord(0.4375, 0.59375, 0.328125, 0.65625)
+
+			if i == 1 then
+				ComboPoints[i]:SetPoint("LEFT", ComboPoints, "LEFT", 0, 0)
+			else
+				ComboPoints[i]:SetPoint("LEFT", ComboPoints[i - 1], "RIGHT", 1, 0)
+			end
+		end
+		self.ComboPointsBar = ComboPoints
+		return self.ComboPointsBar
 	end
 end
 
@@ -168,17 +100,6 @@ function ns.classModule.addAuraBar(self, config, uconfig)
 	Aurabar:SetFrameLevel(1)
 
 	Aurabar.Visibility = function(self, event, unit)
-		local bar = self.Aurabar
-		local index = GetSpecialization()
-		if not index then return false end
-
-		local specID = GetSpecializationInfo(index)
-		local barconfig = config.classBar[specID]
-		if barconfig then
-			bar:SetStatusBarColor(barconfig.r, barconfig.g, barconfig.b)
-			bar.spellID = barconfig.spellID
-			return GetSpellInfo(bar.spellID)
-		end
 		return false
 	end
 	return Aurabar
