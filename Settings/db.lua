@@ -4,17 +4,7 @@ local _, ns = ...
 ns.defaultAuras = {
 	['general'] = { },
 	['boss'] = { },
-	['arena'] = { },
 }
-
-do
-	local l = ns.AuraList
-	for _, list in pairs({l.Immunity, l.CCImmunity, l.Defensive, l.Offensive, l.Helpful, l.Misc}) do
-		for i = 1, #list do
-			ns.defaultAuras.arena[list[i]] = true
-		end
-	end
-end
 
 -- [[	Default Settings	]] --
 ns.defaultConfig = {
@@ -30,7 +20,7 @@ ns.defaultConfig = {
 	castbarSafezoneColor = {.8, 0.4, 0, 1},
 	portraitTimer = true,
 	combatText = false,
-	ThreatIndicator = true,
+	-- ThreatIndicator = true,
 	colorPlayerDebuffsOnly = true,
 	largePlayerAuras = true,
 
@@ -39,8 +29,8 @@ ns.defaultConfig = {
 
 	powercolormode = 'TYPE',
 	powerUseAtlas = true, --todo
-	powerPredictionBar = true, --todoo
-	builderSpender = true, --todo
+	-- powerPredictionBar = true, --todoo
+	-- builderSpender = true, --todo
 	powercolor = { 0.0, 0.1, 0.0 },
 
 	backdropColor = {0, 0, 0, 0.55},
@@ -54,7 +44,6 @@ ns.defaultConfig = {
 
 	showParty = true,
 	showPartyInRaid = true,
-	showArena = true,
 	showBoss = true,
 
 	borderType = 'abu',
@@ -68,8 +57,6 @@ ns.defaultConfig = {
 	customPlayerTexture = 'Interface\\AddOns\\oUF_Abu\\Media\\Frames\\CUSTOMPLAYER-FRAME',
 	frameStyle = 'normal',
 
-	focMod = 'shift-',
-	focBut = '1',
 	castbarticks = true,
 	useAuraTimer = true,
 	clickThrough = false,
@@ -80,38 +67,26 @@ ns.defaultConfig = {
 
 	-- class stuff
 	DRUID = {
-		showTotems = true,
-		showAdditionalPower = true,
+		showComboPoints = true,
 	},
 	HUNTER = {
-		showTotems = true,
 	},
 	MAGE = {
-		showArcaneStacks = true,
-		showTotems = true,
 	},
 	PALADIN = {
-		showHolyPower = true,
-		showTotems = true,
-		showAdditionalPower = true,
 	},
 	PRIEST = {
-		showInsanity = true,
-		showAdditionalPower = true,
 	},
 	ROGUE = {
 		showComboPoints = true,
 	},
 	SHAMAN = {
 		showTotems = true,
-		showAdditionalPower = true,
 	},
 	WARLOCK = {
 		showShards = true,
-		showTotems = true,
 	},
 	WARRIOR = {
-		showTotems = true,
 	},
 
 	absorbtexture = 'Interface\\AddOns\\oUF_Abu\\Media\\Texture\\absorbTexture',
@@ -169,30 +144,6 @@ ns.defaultConfig = {
 		HealthTag = "DISABLE",
    },
 	
-	focus = {
- 		style = "fat",
-		scale = 1.2,
-		HealthTag = "BOTH",
-		PowerTag = "PERCENT",
-		buffPos = "NONE",
-		debuffPos = "BOTTOM",
-		position = 'LEFT/300/80',
-		cbshow = true, 
-		cbwidth = 180,
-		cbheight = 20,
-		cbicon = 'NONE',
-		cbposition = 'LEFT/300/125',
-		cbscale = 1.2,
-	},
-	
-	focustarget = {
-		enable = true,
- 		style = "fat",
-		scale = 1.2,
-		enableAura = false,
-		HealthTag = "DISABLE",
-	},
-	
 	party = {
  		style = "fat",
 		scale = 1.1,
@@ -211,18 +162,6 @@ ns.defaultConfig = {
 		cbheight = 18,
 		cbicon = 'NONE',
 		position = 'RIGHT/-188/255'
-	},
-
-	arena = {
-		scale = 1.1,
-		HealthTag = "BOTH",
-		PowerTag = "PERCENT",
-		cboffset = {0, 0},
-		cbshow = true, 
-		cbwidth = 150,
-		cbheight = 22,
-		cbicon = 'NONE',
-		position = 'RIGHT/-175/225'
 	},
 }
 -----------------------------------------------------------------------

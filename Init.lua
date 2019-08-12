@@ -32,9 +32,6 @@ oUF.colors.power["MANA"] = { 0.00, 0.5, 1.00 }
 --oUF.colors.power["RAGE"] = { 1.00, 0.00, 0.00 }
 --oUF.colors.power["FOCUS"] = { 1.00, 0.50, 0.25 }
 --oUF.colors.power["ENERGY"] = { 1.00, 1.00, 0.00 }
---oUF.colors.power["CHI"] = { 0.71, 1.0, 0.92 }
---oUF.colors.power["RUNES"] = { 0.50, 0.50, 0.50 }
---oUF.colors.power["RUNIC_POWER"] = { 0.00, 0.82, 1.00 }
 --oUF.colors.power["SOUL_SHARDS"] = { 0.50, 0.32, 0.55 }
 --oUF.colors.power["HOLY_POWER"] = { 0.95, 0.90, 0.60 }
 --oUF.colors.power["AMMOSLOT"] = { 0.80, 0.60, 0.00 }
@@ -65,20 +62,6 @@ function oUFAbu:ADDON_LOADED(event, addon)
 		end
 		
 		self:SetupSettings()
-
-		-- Focus Key
-		if (ns.config.focBut ~= 'NONE') then
-			--Blizzard raid frame
-			hooksecurefunc("CompactUnitFrame_SetUpFrame", function(frame, ...)
-				if ((UnitAffectingCombat("player") or UnitAffectingCombat("pet"))) then return; end
-				frame:SetAttribute(ns.config.focMod.."type"..ns.config.focBut, "focus")
-			end)
-			-- World Models
-			local foc = CreateFrame("CheckButton", "Focuser", UIParent, "SecureActionButtonTemplate")
-			foc:SetAttribute("type1", "macro")
-			foc:SetAttribute("macrotext", "/focus mouseover")
-			SetOverrideBindingClick(Focuser, true, ns.config.focMod.."BUTTON"..ns.config.focBut, "Focuser")
-		end
 
 		--Border Texture
 		local prefix = ''

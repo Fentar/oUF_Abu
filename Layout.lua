@@ -47,7 +47,7 @@ local DataNormal = {
 		por = { w = 64,  h = 64,  x = -41,  y = 6,   },
 		glo = { w = 242, h = 92,  x = 13,   y = 0,   t = pathNormal.."Target-Flash", c = {0.945, 0, 0, 0.182}},
 	},
-	target = { -- and focus
+	target = {
 		siz = { w = 175, h = 42   },
 		tex = { w = 230, h = 100, x = 20,   y = -7,  t = pathNormal.."Target", c = {0.09375, 1, 0, 0.78125}},
 		hpb = { w = 117, h = 19,  x = -51,  y = 16,  },
@@ -58,7 +58,7 @@ local DataNormal = {
 		por = { w = 64,  h = 64,  x = 41,   y = 6,   },
 		glo = { w = 239, h = 94,  x = -24,  y = 1,   t = pathNormal.."Target-Flash", c = {0, 0.945, 0, 0.182}},
 	},
-	targettarget = { -- and focus target
+	targettarget = {
 		siz = { w = 85,  h = 20   },
 		tex = { w = 128, h = 64,  x = 16,   y = -10, t = pathNormal.."TargetOfTarget", c = {0, 1, 0, 1}},
 		hpb = { w = 43,  h = 6,   x = 2,    y = 14,  },
@@ -163,11 +163,7 @@ local DataFat = {
 }
 
 local function GetDBUnit(cUnit)
-	if cUnit == "focus" then
-		return "target"
-	elseif cUnit == "focustarget" then
-		return "targettarget"
-	elseif cUnit == "player" then -- can player be vehicle? no it cant
+	if cUnit == "player" then -- can player be vehicle? no it cant
 		return "player"
 	end
 	return cUnit
@@ -193,7 +189,7 @@ local function GetTargetTexture(cUnit, type)
 		type = ns.config.playerStyle
 	end
 
-	-- only "target", "focus" & "player" gets this far
+	-- only "target" & "player" gets this far
 	local data = ns.config[cUnit].style == "normal" and DataNormal.targetTexture or DataFat.targetTexture
 	if data[type] then
 		return data[type]
@@ -249,14 +245,7 @@ local function UpdatePlayerFrame(self, ...)
 	self.Portrait:SetPoint('CENTER', self.Texture, data.por.x, data.por.y)
 	self.Portrait:SetSize(data.por.w, data.por.h)
 
-	if self.ThreatIndicator then
-		self.ThreatIndicator:SetSize(data.glo.w, data.glo.h)
-		self.ThreatIndicator:SetPoint('TOPLEFT', self.Texture, data.glo.x, data.glo.y)
-		self.ThreatIndicator:SetTexture(data.glo.t)
-		self.ThreatIndicator:SetTexCoord(unpack(data.glo.c))
-	end
-
-	 if self.BuilderSpender then
+	if self.BuilderSpender then
  		self.BuilderSpender.FeedbackFrame:SetFrameLevel(self.Power:GetFrameLevel())
  		self.BuilderSpender.FeedbackFrame:SetAllPoints(self.Power)
 		self.BuilderSpender.FeedbackFrame:SetPoint('TOPLEFT', self.Power, 'TOPLEFT', 0, -1)
@@ -291,14 +280,15 @@ local function UpdateUnitFrameLayout(frame)
 	if (frame.cUnit == 'pet' or frame.IsMainFrame or frame.IsTargetFrame ) then
 		frame.CombatFade = ns.config.combatFade
 	end
-		--Combat Fade
+	
+	-- Combat Fade
 	if frame.CombatFade and not frame:IsElementEnabled('oUF_CombatFade') then
 		frame:EnableElement('oUF_CombatFade')
 	elseif not frame.CombatFade and frame:IsElementEnabled('oUF_CombatFade') then
 		frame:DisableElement('oUF_CombatFade')
 	end
 
-	 -- Player frame, its special
+	-- Player frame, its special
 	if cUnit == "player" then 
 		return UpdatePlayerFrame(frame); 
 	elseif (not data) then 
@@ -337,13 +327,6 @@ local function UpdateUnitFrameLayout(frame)
 		frame.Portrait:SetSize(data.por.w, data.por.h)
 		frame.Portrait:SetPoint('CENTER', frame.Texture, data.por.x, data.por.y)
 	end
-	-- Threat Glow -- if enabled
-	if frame.ThreatIndicator then
-		frame.ThreatIndicator:SetSize(data.glo.w, data.glo.h)
-		frame.ThreatIndicator:SetPoint('TOPLEFT', frame.Texture, data.glo.x, data.glo.y)
-		frame.ThreatIndicator:SetTexture(data.glo.t)
-		frame.ThreatIndicator:SetTexCoord(unpack(data.glo.c))
-	end
 end
 
 function oUFAbu:UpdateBaseFrames(optUnit)
@@ -363,8 +346,8 @@ end
 
 local function CreateUnitLayout(self, unit)
 	self.cUnit = ns.cUnit(unit)
-	self.IsMainFrame = ns.MultiCheck(self.cUnit, 'player', 'target', 'focus')
-	self.IsTargetFrame = ns.MultiCheck(self.cUnit, 'targettarget', 'focustarget')
+	self.IsMainFrame = ns.MultiCheck(self.cUnit, 'player', 'target')
+	self.IsTargetFrame = ns.MultiCheck(self.cUnit, 'targettarget')
 	self.IsPartyFrame = self.cUnit:match('party')
 
 	if (self.IsTargetFrame) then
@@ -377,15 +360,6 @@ local function CreateUnitLayout(self, unit)
 	self:HookScript("OnEnter", ns.UnitFrame_OnEnter)
 	self:HookScript("OnLeave", ns.UnitFrame_OnLeave)
 	self.mouseovers = {}
-
-	if (config.focBut ~= 'NONE') then
-		if (self.cUnit == 'focus') then
-			self:SetAttribute(config.focMod.."type"..config.focBut, 'macro')
-			self:SetAttribute('macrotext', '/clearfocus')
-		else
-			self:SetAttribute(config.focMod.."type"..config.focBut, 'focus')
-		end
-	end
 
 	local uconfig = ns.config[self.cUnit]
 	local data = GetData(self.cUnit)
@@ -456,12 +430,6 @@ local function CreateUnitLayout(self, unit)
 				SetPortraitTexture(portrait, unit)
 			end
 		end
-	end
-
-	--[[ 	Threat glow		]]
-	if (config.ThreatIndicator) and (data.glo) then 
-		self.ThreatIndicator = self.Health:CreateTexture(nil, 'BACKGROUND', nil,-1)
-		self.ThreatIndicator.feedbackUnit = 'player'
 	end
 
 	if (self.IsMainFrame) then
@@ -571,7 +539,7 @@ local function CreateUnitLayout(self, unit)
 
 		--self.MasterLooterIndicator = self:CreateTexture(nil, 'OVERLAY', self)
 		--self.MasterLooterIndicator:SetSize(16, 16)
-		--if (self.cUnit == 'target' or self.cUnit == 'focus') then
+		--if (self.cUnit == 'target') then
 		--	self.MasterLooterIndicator:SetPoint('TOPLEFT', self.Portrait, 3, 3)
 		--elseif (self.IsTargetFrame) then
 		--	self.MasterLooterIndicator:SetPoint('CENTER', self.Portrait, 'TOPLEFT', 3, -3)
@@ -582,7 +550,7 @@ local function CreateUnitLayout(self, unit)
 
 		self.LeaderIndicator = self:CreateTexture(nil, 'OVERLAY', self)
 		self.LeaderIndicator:SetSize(16, 16)
-		if (self.cUnit == 'target' or self.cUnit == 'focus') then
+		if (self.cUnit == 'target') then
 			self.LeaderIndicator:SetPoint('TOPRIGHT', self.Portrait, -3, 2)
 		elseif (self.IsTargetFrame) then
 			self.LeaderIndicator:SetPoint('TOPLEFT', self.Portrait, -3, 4)
@@ -679,8 +647,8 @@ local function CreateUnitLayout(self, unit)
 
 	end
 	
-	--[[ 	Focus & Target Frame		]]
-	if (self.cUnit == 'target' or self.cUnit == 'focus') then
+	--[[ 	Target Frame		]]
+	if (self.cUnit == 'target') then
 		-- Questmob Icon	
 		self.QuestIndicator = self:CreateTexture(nil, 'OVERLAY')
 		self.QuestIndicator:SetSize(32, 32)
@@ -692,34 +660,20 @@ local function CreateUnitLayout(self, unit)
 	end
 
 	--[[ 	Auras		]]
-	if (self.cUnit == 'focus') or (self.cUnit == 'target') then
-		local isFocus = self.cUnit == 'focus'
-
+	if (self.cUnit == 'target') then
 		local function GetAuraData(mode)
 			local size, gap, columns, rows, initialAnchor, relAnchor, offX, offY
 			if (mode == "TOP") then
-				if isFocus then
-					columns, rows = 3, 3
-				else
-					columns, rows = 6, 3
-				end
+				columns, rows = 6, 3
 				initialAnchor, relAnchor, offX, offY = 'BOTTOMLEFT', 'TOPLEFT', -2, 20
 			elseif (mode == "BOTTOM") then
-				if isFocus then
-					columns, rows = 3, 3
-				else
-					columns, rows = 4, 3
-				end
+				columns, rows = 4, 3
 				initialAnchor, relAnchor, offX, offY = 'TOPLEFT', 'BOTTOMLEFT', -2, -8
 			elseif (mode == "LEFT") then
-				if isFocus then
-					columns, rows = 5, 3
-				else
-					columns, rows = 8, 3
-				end
+				columns, rows = 8, 3
 				initialAnchor, relAnchor, offX, offY = 'TOPRIGHT', 'TOPLEFT', -8, -1.5
 			end
-			size = isFocus and 26 or 20
+			size = 20
 			gap = 4.5
 			return size, gap, columns, rows, initialAnchor, relAnchor, offX, offY
 		end
@@ -815,14 +769,6 @@ oUF:Factory( function(self)
 	if (config.targettarget.enable) then
 		local targettarget = self:Spawn('targettarget', 'oUF_AbuTargetTarget')
 		targettarget:SetPoint('TOPLEFT', target, 'BOTTOMRIGHT', -78, -15)
-	end
-
-	local focus = self:Spawn('focus', 'oUF_AbuFocus')
-	ns.CreateUnitAnchor(focus, focus, focus, nil, 'focus')
-
-	if (config.focustarget.enable) then
-		local focustarget = self:Spawn('focustarget', 'oUF_AbuFocusTarget')
-		focustarget:SetPoint('TOPLEFT', focus, 'BOTTOMRIGHT', -78, -15)
 	end
 
 	if (config.showParty) then
