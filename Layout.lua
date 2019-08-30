@@ -307,6 +307,7 @@ local function UpdateUnitFrameLayout(frame)
 	-- HealthBar
 	frame.Health:SetSize(data.hpb.w, data.hpb.h)
 	frame.Health:SetPoint('CENTER', frame.Texture, data.hpb.x, data.hpb.y)
+
 	-- ManaBar
 	frame.Power:SetSize(data.mpb.w, data.mpb.h)
 	frame.Power:SetPoint('TOPLEFT', frame.Health, 'BOTTOMLEFT', data.mpb.x, data.mpb.y)
@@ -773,6 +774,7 @@ oUF:Factory( function(self)
 
 	if (config.showParty) then
 		local party = oUF:SpawnHeader('oUF_AbuParty', nil, (config.showPartyInRaid and 'custom [@raid6,exists] hide;show') or 'custom [group:party,nogroup:raid] show; hide',
+		    'showPlayer', true,
 			'oUF-initialConfigFunction', [[
 				self:SetWidth(105)
 				self:SetHeight(30)
@@ -814,12 +816,14 @@ oUF:Factory( function(self)
 
 		local statusbar = _G['MirrorTimer' .. i .. 'StatusBar']
 		statusbar:SetStatusBarTexture(config.statusbar)
-		statusbar:SetAllPoints(bar)
+		statusbar:SetPoint("TOPLEFT", bar, "TOPLEFT", 0, 0)
+		statusbar:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", 0, 0)
 
 		local backdrop = select(1, bar:GetRegions())
 		backdrop:SetTexture('Interface\\Buttons\\WHITE8x8')
 		backdrop:SetVertexColor(0, 0, 0, 0.5)
-		backdrop:SetAllPoints(bar)
+		backdrop:SetPoint("TOPLEFT", bar, "TOPLEFT", 0, 0)
+		backdrop:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", 0, 0)
 
 		local border = _G['MirrorTimer' .. i .. 'Border']
 		border:Hide()
