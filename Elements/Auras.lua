@@ -1,5 +1,9 @@
 local _, ns = ...
 local L = ns.L
+local LibClassicDurations = LibStub("LibClassicDurations")
+
+-- Register LibClassicDurations
+LibClassicDurations:Register("oUF_Abu")
 
 local floor, format = floor, string.format
 
@@ -168,6 +172,15 @@ do
 
 	function postUpdateIcon( element, unit, button, index, offset )
 		local name, texture, count, dtype, duration, expirationTime, caster, canStealOrPurge, shouldConsolidate, spellID = UnitAura(unit, index, button.filter)
+
+		if duration == 0 and expirationTime == 0 then
+			duration, expirationTime = LibClassicDurations:GetAuraDurationByUnit(unit, spellID, caster, name)
+			button.IsLibClassicDuration = true
+		else
+			button.IsLibClassicDuration = false
+		end
+	
+
 		button:EnableMouse(not ns.config.clickThrough)
 		button.overlay:Show()
 		button.shadow:Show()
@@ -197,6 +210,7 @@ do
 				button.timeLeft = expirationTime - GetTime()
 				text, button.nextupdate = GetTimes(button.timeLeft)
 				button.timer:SetText(text)
+				button.cd:SetCooldown(expirationTime - duration, duration)
 				button:SetScript('OnUpdate', UpdateAura)
 			else
 				if (button.timer:IsShown()) then
