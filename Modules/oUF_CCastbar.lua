@@ -48,8 +48,8 @@ local serverlag
 
 local UnitName = UnitName
 local GetTime = GetTime
-local UnitCastingInfo = UnitCastingInfo
-local UnitChannelInfo = UnitChannelInfo
+local CastingInfo = CastingInfo
+local ChannelInfo = ChannelInfo
 
 local updateSafeZone = function(self)
 	local sz = self.SafeZone
@@ -187,7 +187,7 @@ events.UNIT_SPELLCAST_DELAYED = function(self, event, unit, castID, spellID)
 	if(self.unit ~= unit) then return end
 	local castbar = self.CCastbar
 
-	local name, text, texture, startTime, endTime, isTradeSkill, cast_ID, notInterruptible, spell_ID = UnitCastingInfo(unit)
+	local name, text, texture, startTime, endTime, isTradeSkill, cast_ID, notInterruptible, spell_ID = CastingInfo(unit)
 	if(not startTime or not castbar:IsShown()) then return end
 
 	local duration = GetTime() - (startTime / 1000)
@@ -322,7 +322,7 @@ events.UNIT_SPELLCAST_CHANNEL_UPDATE = function(self, event, unit, castID, spell
 	if(self.unit ~= unit) then return end
 	local castbar = self.CCastbar
 
-	local name, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo(unit)
+	local name, text, texture, startTime, endTime, isTradeSkill, notInterruptible = ChannelInfo(unit)
 	if(not name or not castbar:IsShown()) then
 		return
 	end
