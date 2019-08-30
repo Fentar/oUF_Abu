@@ -2,6 +2,7 @@
 ## Author: Abu
 ## Title: oUF_|cffffffffAbu|r
 ## RequiredDeps: oUF
+## OptionalDeps: RealMobHealth
 ## Version: 8.0-3
 ## SavedVariables: oUFAbuSettings, oUFAbuAuraFilters
 ## SavedVariablesPerCharacter: oUFAbuProfile

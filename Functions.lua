@@ -148,7 +148,6 @@ do
 			self.Name.Bg:SetVertexColor(UnitSelectionColor(unit))
 		end
 
-		
 		if absent then
 			Health:SetStatusBarColor(0.5, 0.5, 0.5)
 			if Health.Value then
@@ -157,9 +156,10 @@ do
 			return
 		end
 
-		if not cur then
-			cur = UnitHealth(unit)
-			max = UnitHealthMax(unit) or 1
+		if RealMobHealth then
+			cur, max = RealMobHealth.GetUnitHealth(unit)
+		elseif not cur then
+			cur, max = UnitHealth(unit)
 		end
 
 		local color, _
