@@ -128,7 +128,8 @@ function ns.CreateCastbars(self)
 
 	Castbar.Background = Castbar:CreateTexture(nil, 'BACKGROUND')
 	Castbar.Background:SetTexture('Interface\\Buttons\\WHITE8x8')
-	Castbar.Background:SetAllPoints(Castbar)
+	Castbar.Background:SetPoint("TOPLEFT", Castbar, "TOPLEFT", 0, 0)
+	Castbar.Background:SetPoint("BOTTOMRIGHT", Castbar, "BOTTOMRIGHT", 0, 0)
 
 	if (self.cUnit == 'player') then
 		local SafeZone = Castbar:CreateTexture(nil, 'BORDER') 

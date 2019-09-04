@@ -1,6 +1,10 @@
 
 local OUF_ABU, ns = ...
 local OUF_ABUOPTIONS = "oUF_AbuOptions"
+local LibClassicDurations = LibStub("LibClassicDurations")
+
+-- Register LibClassicDurations
+LibClassicDurations:Register("oUF_Abu")
 
 ns.fontstrings = {} -- For fonstrings
 ns.fontstringsB = {}-- For big fonstrings

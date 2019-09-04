@@ -2,9 +2,6 @@ local _, ns = ...
 local L = ns.L
 local LibClassicDurations = LibStub("LibClassicDurations")
 
--- Register LibClassicDurations
-LibClassicDurations:Register("oUF_Abu")
-
 local floor, format = floor, string.format
 
 local createAuraIcon
@@ -173,13 +170,13 @@ do
 	function postUpdateIcon( element, unit, button, index, offset )
 		local name, texture, count, dtype, duration, expirationTime, caster, canStealOrPurge, shouldConsolidate, spellID = UnitAura(unit, index, button.filter)
 
-		if duration == 0 and expirationTime == 0 then
-			duration, expirationTime = LibClassicDurations:GetAuraDurationByUnit(unit, spellID, caster, name)
-			button.IsLibClassicDuration = true
-		else
-			button.IsLibClassicDuration = false
+		if (not duration or duration == 0 or not expirationTime or expirationTime == 0) then
+			if spellID then
+				local newDuration, newExpiration = LibClassicDurations:GetAuraDurationByUnit(unit, spellID, caster, name)
+				duration = newDuration or duration
+				expirationTime = newExpiration or expirationTime
+			end
 		end
-	
 
 		button:EnableMouse(not ns.config.clickThrough)
 		button.overlay:Show()

@@ -245,21 +245,6 @@ local function UpdatePlayerFrame(self, ...)
 	self.Portrait:SetPoint('CENTER', self.Texture, data.por.x, data.por.y)
 	self.Portrait:SetSize(data.por.w, data.por.h)
 
-	if self.BuilderSpender then
- 		self.BuilderSpender.FeedbackFrame:SetFrameLevel(self.Power:GetFrameLevel())
- 		self.BuilderSpender.FeedbackFrame:SetAllPoints(self.Power)
-		self.BuilderSpender.FeedbackFrame:SetPoint('TOPLEFT', self.Power, 'TOPLEFT', 0, -1)
-
-		local POWER = self.BuilderSpender.FullPowerFrame
- 		POWER:SetSize(self.Power:GetSize())
- 		POWER:SetPoint('BOTTOMLEFT', self.Power, 'BOTTOMLEFT', 4, -2)
- 		for _,v in pairs({POWER.SpikeFrame.BigSpikeGlow, POWER.SpikeFrame.AlertSpikeStay, POWER.PulseFrame.YellowGlow, POWER.PulseFrame.SoftGlow}) do
- 			local x,y = v:GetSize()
- 			local scale = self.Power:GetHeight()/(PlayerFrameManaBar:GetHeight() or 12)
- 			v:SetSize(x*scale,y*scale)
- 		end
-	end
-	
 	self.PvPIndicator:ClearAllPoints()
 
 	self.Name:Hide()
@@ -269,7 +254,6 @@ local function UpdatePlayerFrame(self, ...)
 	self.PvPIndicator:SetPoint('TOPLEFT', self.Texture, 23, -23)
 	self.LeaderIndicator:SetPoint('TOPLEFT', self.Portrait, 3, 2)
 	self.RaidTargetIndicator:SetPoint('CENTER', self.Portrait, 'TOP', 0, -1)
-	PlayerFrameVehicleTexture:Hide();
 end
 
 local function UpdateUnitFrameLayout(frame)
@@ -304,6 +288,7 @@ local function UpdateUnitFrameLayout(frame)
 	frame.Texture:SetSize(data.tex.w, data.tex.h)
 	frame.Texture:SetPoint('CENTER', frame, data.tex.x, data.tex.y)
 	frame.Texture:SetTexCoord(unpack(data.tex.c))
+
 	-- HealthBar
 	frame.Health:SetSize(data.hpb.w, data.hpb.h)
 	frame.Health:SetPoint('CENTER', frame.Texture, data.hpb.x, data.hpb.y)
