@@ -3,6 +3,7 @@ local oUF = ns.oUF or oUF
 
 local PortraitTimerDB = { }
 
+local LibClassicDurations = LibStub("LibClassicDurations")
 
 local 	GetTime, GetSpellInfo, UnitAura = 
 		GetTime, GetSpellInfo, UnitAura
@@ -73,7 +74,16 @@ local Update = function(self, event, unit)
 	local UnitDebuff, index = UnitDebuff, 0
 	while (true) do
 		index = index + 1
-		local name, texture, _, _, duration, expires, _, _, _, spellId = (UnitDebuff or UnitBuff)(unit, index)
+		local name, texture, _, _, duration, expires, caster, _, _, spellId = (UnitDebuff or UnitBuff)(unit, index)
+
+		if (not duration or duration == 0 or not expires or expires == 0) then
+			if spellId then
+				local newDuration, newExpiration = LibClassicDurations:GetAuraDurationByUnit(unit, spellId, caster, name)
+				duration = newDuration or duration
+				expires = newExpiration or expires
+			end
+		end
+
 		if name then
 			if PortraitTimerDB[spellId] then
 
