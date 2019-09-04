@@ -443,8 +443,8 @@ local function CreateUnitLayout(self, unit)
 
 		--[[ PvPIndicator Icon  ]] --
 		self.PvPIndicator = self:CreateTexture(nil, 'OVERLAY')
-		self.PvPIndicator:SetSize(30, 30)
-		self.PvPIndicator:SetPoint('TOPRIGHT', self.Texture, -23, -23)
+		self.PvPIndicator:SetSize(48, 48)
+		self.PvPIndicator:SetPoint('TOPRIGHT', self.Texture, -6, -23)
 		self.PvPIndicator.Prestige = self:CreateTexture(nil, 'ARTWORK')
    		self.PvPIndicator.Prestige:SetSize(50, 52)
 	   	self.PvPIndicator.Prestige:SetPoint('CENTER', self.PvPIndicator, 'CENTER')
@@ -630,7 +630,7 @@ local function CreateUnitLayout(self, unit)
 
 		-- PvPIndicator Timer
 		self.PvPIndicatorTimer = ns.CreateFontString(self, 13, 'CENTER')
-		self.PvPIndicatorTimer:SetPoint('BOTTOM', self.PvPIndicator, 'TOP', 2, -24  )
+		self.PvPIndicatorTimer:SetPoint('BOTTOM', self.PvPIndicator, 'TOP', -9, -28)
 		self.PvPIndicatorTimer.frequentUpdates = 0.5
 		self:Tag(self.PvPIndicatorTimer, '[abu:pvptimer]')
 
@@ -645,7 +645,6 @@ local function CreateUnitLayout(self, unit)
 		self.RestingIndicator:SetPoint('CENTER', self.Level, -0.5, 0)
 		self.RestingIndicator:SetSize(31, 34)
 		self.RestingIndicator.PostUpdate = updatePlayerStatus
-
 	end
 	
 	--[[ 	Target Frame		]]
