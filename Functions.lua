@@ -17,9 +17,17 @@ local function FormatValue(value)
 	elseif absvalue >= 1e6 then
 		return tonumber(format('%.2f', value/1e6))..'m'
 	elseif absvalue >= 1e5 then
-		return tonumber(format('%.0f', value/1e3))..'k'
+		if ns.CLASSIC then
+			return value
+		else
+			return tonumber(format('%.0f', value/1e3))..'k'
+		end
 	elseif absvalue >= 1e3 then
-		return tonumber(format('%.1f', value/1e3))..'k'
+		if ns.CLASSIC then
+			return value
+		else
+			return tonumber(format('%.1f', value/1e3))..'k'
+		end
 	else
 		return value
 	end

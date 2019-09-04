@@ -10,6 +10,9 @@ ns.paintframes = {} -- For coloring frames
 ns.L = {}
 ns.locale = GetLocale()
 
+local CLASSIC = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+ns.CLASSIC = CLASSIC
+
 ------------------------------------------------------------------------
 --  Colors
 oUF.colors.uninterruptible = { 1, 0.7, 0 }
