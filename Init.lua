@@ -228,7 +228,7 @@ end
 function oUFAbu:LoadOptions()
 	if IsAddOnLoaded(OUF_ABUOPTIONS) then return true; end
 
-	if InCombatLockdown() then
+	if InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet") then
 		ns.Print(ns.L['OptionsLoadAfterCombat'])
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
 		return false

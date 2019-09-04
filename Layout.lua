@@ -216,7 +216,7 @@ local function UpdatePlayerFrame(self, ...)
 	local data = GetData(self.cUnit)
 	local uconfig = ns.config[self.cUnit]
 	-- Frame Size
-	if not InCombatLockdown() then
+	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
 		self:SetSize(data.siz.w, data.siz.h)
 		self:SetScale(uconfig.scale or 1)
 		self:EnableMouse((not ns.config.clickThrough))
@@ -331,7 +331,7 @@ local function UpdateUnitFrameLayout(frame)
 end
 
 function oUFAbu:UpdateBaseFrames(optUnit)
-	if InCombatLockdown() then return; end
+	if InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet") then return; end
 	config = ns.config
 	if optUnit and optUnit:find("%d") then
 		optUnit = optUnit:match('^.%a+')
