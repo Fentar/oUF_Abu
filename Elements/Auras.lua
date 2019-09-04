@@ -132,14 +132,14 @@ do
 			local mSecLeft = remaining % 1
 			return floor(remaining + .5), mSecLeft > .5 and mSecLeft - .49 or mSecLeft + 0.51
 
-		elseif remaining < 10*MINUTE then
+		elseif remaining < 30*MINUTE then
 			local secLeft = remaining % MINUTE
 			if remaining < 90 then
 				return format('%dm', floor(remaining/MINUTE + 0.5)), secLeft + .51
 			end
 			return format('%dm', floor(remaining/MINUTE + 0.5)), secLeft > 30 and secLeft - 29 or secLeft + 31
 
-		else -- Hide timers longer than 10 minutes
+		else -- Hide timers longer than 30 minutes
 			return '', (remaining % MINUTE) + 31
 		end
 	end
