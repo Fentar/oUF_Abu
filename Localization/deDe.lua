@@ -62,8 +62,6 @@ local L = ns.L
 	L.General_ClickTip = "Macht die Fenster durchklickbar."
 	L.General_ModKey = "Fokus-Modifikatortaste"
 	L.General_ModButton = "Fokus-Maustaste"
-	L.General_Absorb = "Absorptionsleiste aktivieren"
-	L.General_AbsorbTip = "Eine Leiste, die die gesamte Absorption einer Einheit anzeigt, anzeigen."
 	L.General_ClassP = "Klassenportraits aktivieren"
 	L.General_ClassPTip = "Ein Klassensymbol anstatt eines Portraits bei Spielern anzeigen."
 	

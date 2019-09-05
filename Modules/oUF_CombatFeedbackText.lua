@@ -20,7 +20,6 @@ local colors = {
 	CRUSHING		= { 1, 0, 0 },
 	CRITICAL		= { 1, 0, 0 },
 	GLANCING		= { 1, 0, 0 },
-	ABSORB			= { 1, 1, 1 },
 	BLOCK			= { 1, 1, 1 },
 	RESIST			= { 1, 1, 1 },
 	MISS			= { 1, 1, 1 },
@@ -94,10 +93,6 @@ local function combat(self, event, unit, eventType, flags, amount, dtype)
 			end
 			text = damage_format
 			arg = amount
-		elseif flags == "ABSORB" then
-			color = fColors and fColors.ABSORB or colors.ABSORB
-			fontHeight = fontHeight * 0.75
-			text = CombatFeedbackText["ABSORB"]
 		elseif flags == "BLOCK" then
 			color = fColors and fColors.BLOCK or colors.BLOCK
 			fontHeight = fontHeight * 0.75

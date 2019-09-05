@@ -63,8 +63,6 @@ end
 -------------------------------------------------------------------------------
 local UnitIsGhost, GetSpellInfo, UnitIsConnected, UnitIsDead, UnitIsDeadOrGhost, UnitIsPlayer, UnitReaction, UnitIsEnemy, UnitSelectionColor =
 	  UnitIsGhost, GetSpellInfo, UnitIsConnected, UnitIsDead, UnitIsDeadOrGhost, UnitIsPlayer, UnitReaction, UnitIsEnemy, UnitSelectionColor
---local UnitGetTotalHealAbsorbs, UnitGetIncomingHeals, UnitGetTotalAbsorbs, math, UnitHealth, UnitHealthMax = 
---	  UnitGetTotalHealAbsorbs, UnitGetIncomingHeals, UnitGetTotalAbsorbs, math, UnitHealth, UnitHealthMax
 local UnitPowerType, UnitPower, UnitPowerMax, UnitHasVehicleUI, UnitClass, UnitIsTapDenied, format = 
 	  UnitPowerType, UnitPower, UnitPowerMax, UnitHasVehicleUI, UnitClass, UnitIsTapDenied, format
 
@@ -230,53 +228,9 @@ local function appendTexture(healthbar, anchorTexture, bar, amount, fromAmount, 
 	return bar, amount < 0 and fromAmount or endAmount, nextPoint
 end
 
-local function updateAbsorbBars(healthbar, unit, curHP, maxHP)
-	if maxHP <= 0 then
-		return
-	end
-
-	healthbar.sizeWidth, healthbar.sizeHeight = healthbar:GetSize()
-	local _, maxValue = healthbar:GetMinMaxValues()
-	healthbar.maxValue = maxValue
-
-	local healAbsorb = 0
-	local incHealing = 0
-	local totalAbsorb_Value = 0
-
-	local texture, endAmount, nextPoint = appendTexture(healthbar, healthbar:GetStatusBarTexture(), healthbar.healAbsorbBar, -healAbsorb, curHP, 'RIGHT')
-
-	local missingHP = maxHP - curHP
-	if (curHP - healAbsorb + incHealing) > maxHP then
-		incHealing = missingHP + healAbsorb 
-	end
-	texture, endAmount, nextPoint = appendTexture(healthbar, texture, healthbar.incHealBar, incHealing, endAmount, nextPoint)
-
-	local shownAbsorb_Value = math.min(missingHP, totalAbsorb_Value)
-	local overAbsorb_Value = totalAbsorb_Value - missingHP
-	appendTexture(healthbar, healthbar:GetStatusBarTexture(), healthbar.absorbBar, shownAbsorb_Value, curHP, 'RIGHT')
-
-	local overAbsorbBar = healthbar.overAbsorbBar
-	if (overAbsorb_Value < (maxHP * 0.01)) then
-		overAbsorbBar:Hide()
-		healthbar.absorbBar.glow:Hide()
-	else
-		healthbar.absorbBar.glow:Show()
-		overAbsorbBar:SetMinMaxValues(0, maxHP)
-		overAbsorbBar:SetValue(math.min(overAbsorb_Value, maxHP))
-		overAbsorbBar:Show()
-		if not overAbsorbBar.spark:IsShown() then
-			overAbsorbBar.spark:Show()
-		end
-	end
-end
-
 function ns.UpdateHealthOverride(self, event, unit)
 	if not unit or self.unit ~= unit then return; end
 	local cur, max = UnitHealth(unit), UnitHealthMax(unit)
-	if (event == 'UNIT_HEAL_PREDICTION' or event == 'UNIT_ABSORB_AMOUNT_CHANGED' or event == 'UNIT_HEAL_ABSORB_AMOUNT_CHANGED') then
-		updateAbsorbBars(self.Health, unit, cur, max)
-		return;
-	end
 	local disconnected = not UnitIsConnected(unit)
 	self.Health:SetMinMaxValues(0, max)
 	if(disconnected) then
@@ -286,8 +240,6 @@ function ns.UpdateHealthOverride(self, event, unit)
 	end
 	self.Health.disconnected = disconnected
 	self.Health:UpdateColor(unit, cur, max)
-	updateAbsorbBars(self.Health, unit, cur, max)
-
 	ns.PostUpdateHealth(self.Health, unit, cur, max)
 end
 

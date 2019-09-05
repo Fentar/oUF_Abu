@@ -62,8 +62,6 @@ L.Enable = _G.ENABLE
 	L.General_ClickTip = "Make the frames click through."
 	L.General_ModKey = "Focus Modifier Key"
 	L.General_ModButton = "Focus Mouse Button"
-	L.General_Absorb = "Enable Absorb Bar"
-	L.General_AbsorbTip = "Display a bar showing total absorb on a unit."
 	L.General_ClassP = "Enable Class Portraits"
 	L.General_ClassPTip = "Display a class icon instead of portrait on players."
 	L.General_FadeFramesInCombat = "Fade out frames when not in combat"
@@ -93,8 +91,6 @@ L.Enable = _G.ENABLE
 	L.General_classAuraBarTip = "Display an aura bar above the player frame for your specialization. \n Set the spell ID of the aura and set a color for the bar"
 	L.General_powerPredictionBar = "Enable Predicted Cost Bar"
 	L.General_powerPredictionBarTip = "Display an overlay on the manabar with the predicted cost of a spell"
-	L.General_builderSpender = "Enable Builder Spender"
-	L.General_builderSpenderTip = "Overlay the powerbar with feedback displaying gains/losses"
 	L.General_useAtlas = "Use the special powerbar texture"
 
 	---- TEXTURES,

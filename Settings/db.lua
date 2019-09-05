@@ -20,7 +20,6 @@ ns.defaultConfig = {
 	castbarSafezoneColor = {.8, 0.4, 0, 1},
 	portraitTimer = true,
 	combatText = false,
-	-- ThreatIndicator = true,
 	colorPlayerDebuffsOnly = true,
 	largePlayerAuras = true,
 
@@ -30,7 +29,6 @@ ns.defaultConfig = {
 	powercolormode = 'TYPE',
 	powerUseAtlas = true, --todo
 	-- powerPredictionBar = true, --todoo
-	-- builderSpender = true, --todo
 	powercolor = { 0.0, 0.1, 0.0 },
 
 	backdropColor = {0, 0, 0, 0.55},
@@ -88,9 +86,6 @@ ns.defaultConfig = {
 	},
 	WARRIOR = {
 	},
-
-	absorbtexture = 'Interface\\AddOns\\oUF_Abu\\Media\\Texture\\absorbTexture',
-	absorbspark = 'Interface\\AddOns\\oUF_Abu\\Media\\Texture\\absorbSpark',
 
  	player = {
  		style = "fat",

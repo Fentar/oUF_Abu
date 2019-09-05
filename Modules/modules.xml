@@ -1,7 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="oUF_Aurabars.lua"/>	
 	<Script file="oUF_Auraorbs.lua"/>
-	<Script file="oUF_BuilderSpender.lua"/>	
 	<Script file="oUF_CCastbar.lua"/>	
 	<Script file="oUF_CombatFade.lua"/>	
 	<Script file="oUF_CombatFeedbackText.lua"/>	

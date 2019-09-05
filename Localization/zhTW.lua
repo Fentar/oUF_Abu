@@ -59,8 +59,6 @@ local L = ns.L
 	L.General_ClickTip = "使框架可以點擊穿過."
 	L.General_ModKey = "焦點組合按鍵"
 	L.General_ModButton = "焦點鼠標按鍵"
-	L.General_Absorb = "啓用吸收量條"
-	L.General_AbsorbTip = "爲一個單位顯示一個總吸收量條."
 	L.General_ClassP = "啓用職業圖標頭像"
 	L.General_ClassPTip = "顯示一個職業圖標替代玩家頭像."
 

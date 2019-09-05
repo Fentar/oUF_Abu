@@ -60,8 +60,6 @@ local L = ns.L
 --	L.General_ClickTip = "Make the frames click through."
 --	L.General_ModKey = "Focus Modifier Key"
 --	L.General_ModButton = "Focus Mouse Button"
---	L.General_Absorb = "Enable Absorb Bar"
---	L.General_AbsorbTip = "Display a bar showing total absorb on a unit."
 --	L.General_ClassP = "Enable Class Portraits"
 --	L.General_ClassPTip = "Display a class icon instead of portrait on players."
 
