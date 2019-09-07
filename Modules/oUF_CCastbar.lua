@@ -82,11 +82,12 @@ local updateSafeZone = function(self)
 end
 
 events.UNIT_SPELLCAST_START = function(self, event, unit, castID, spellID)
+	-- print("UNIT_SPELLCAST_START")
 	if(self.unit ~= unit) then return end
 
 	local castbar = self.CCastbar
 	local name, text, texture, startTime, endTime, isTradeSkill, cast_ID, notInterruptible, spell_id = UnitCastingInfo(unit)
-	if (not name or not castbar.enableCastbar) then
+	if (not (name and text) or not castbar.enableCastbar) then
 		castbar:Hide()
 		return
 	end
@@ -105,7 +106,7 @@ events.UNIT_SPELLCAST_START = function(self, event, unit, castID, spellID)
 	castbar.fadeOut = nil
 	castbar.channeling = nil
 
-	if(castbar.Text) then castbar.Text:SetText(name) end
+	if(castbar.Text) then castbar.Text:SetText(name or text) end
 	if(castbar.Icon) then castbar.Icon:SetTexture(texture) end
 	if(castbar.Time) then castbar.Time:SetText() end
 	if(castbar.Spark)then castbar.Spark:Show() end
@@ -281,11 +282,12 @@ events.UNIT_SPELLCAST_CHANNEL_STOP = function(self, event, unit, castID, spellID
 end
 
 events.UNIT_SPELLCAST_CHANNEL_START = function(self, event, unit, castID, spellID)
+	-- print("UNIT_SPELLCAST_CHANNEL_START")
 	if(self.unit ~= unit) then return end
 
 	local castbar = self.CCastbar
 	local name, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo(unit)
-	if (not name or not castbar.enableCastbar) then
+	if (not (name and text) or not castbar.enableCastbar) then
 		return
 	end
 	castbar.duration = (endTime/1000) - GetTime()
@@ -303,7 +305,7 @@ events.UNIT_SPELLCAST_CHANNEL_START = function(self, event, unit, castID, spellI
 	castbar.channeling = 1
 	castbar.fadeOut = nil
 
-	if (castbar.Text) then castbar.Text:SetText(name) end
+	if (castbar.Text) then castbar.Text:SetText(name or text) end
 	if (castbar.Icon) then castbar.Icon:SetTexture(texture) end
 	if (castbar.Time) then castbar.Time:SetText() end
 	if (castbar.Spark)then castbar.Spark:Show() end
@@ -601,23 +603,19 @@ local Enable = function(object, unit)
 		castbar.ForceUpdate = ForceUpdate
 
 		if(not (unit and unit:match'%wtarget$')) then
-			if (unit ~= "player" and LibClassicCasterino) then
-				object['UNIT_SPELLCAST_START'] = onEvent
-				object['UNIT_SPELLCAST_DELAYED'] = onEvent
-				object['UNIT_SPELLCAST_STOP'] = onEvent
-				object['UNIT_SPELLCAST_FAILED'] = onEvent
-				object['UNIT_SPELLCAST_INTERRUPTED'] = onEvent
-				object['UNIT_SPELLCAST_CHANNEL_START'] = onEvent
-				object['UNIT_SPELLCAST_CHANNEL_UPDATE'] = onEvent
-				object['UNIT_SPELLCAST_CHANNEL_STOP'] = onEvent
-				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_START')
-				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_DELAYED')
-				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_STOP')
-				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_FAILED')
-				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_INTERRUPTED')
-				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_CHANNEL_START')
-				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_CHANNEL_UPDATE')
-				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_CHANNEL_STOP')
+			if (unit ~= player and LibClassicCasterino) then
+				local CastbarEventHandler = function(event, ...)
+					local self = object
+					onEvent(self, event, ...)
+				end
+				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_START', CastbarEventHandler)
+				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_DELAYED', CastbarEventHandler)
+				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_STOP', CastbarEventHandler)
+				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_FAILED', CastbarEventHandler)
+				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_INTERRUPTED', CastbarEventHandler)
+				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_CHANNEL_START', CastbarEventHandler)
+				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_CHANNEL_UPDATE', CastbarEventHandler)
+				LibClassicCasterino.RegisterCallback(object, 'UNIT_SPELLCAST_CHANNEL_STOP', CastbarEventHandler)
 			else
 				object:RegisterEvent('UNIT_SPELLCAST_START', onEvent)
 				object:RegisterEvent('UNIT_SPELLCAST_FAILED', onEvent)
