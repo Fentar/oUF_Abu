@@ -745,9 +745,9 @@ oUF:Factory( function(self)
 		local bar = _G['MirrorTimer' .. i]
 		bar:SetParent(UIParent)
 		bar:SetScale(1.132)
-		bar:SetSize(220, 18)
+		bar:SetSize(220, 20)
 
-		ns.CreateBorder(bar, 11, 3)
+		ns.CreateBorder(bar, 10, 2)
 
 		if (i > 1) then
 			local p1, p2, p3, p4, p5 = bar:GetPoint()
@@ -772,7 +772,7 @@ oUF:Factory( function(self)
 		text:SetFont(config.fontNormal, 13, config.fontNormalOutline)
 		table.insert(ns.fontstrings, text)
 		text:ClearAllPoints()
-		text:SetPoint('CENTER', bar, 0, -1)
+		text:SetPoint('CENTER', bar, 0, 0)
 		bar.text = text
 	end	
 end)
