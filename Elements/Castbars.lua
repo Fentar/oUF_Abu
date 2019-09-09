@@ -190,7 +190,7 @@ function ns.CreateCastbars(self)
 	Castbar.PostChannelStart = ns.PostChannelStart
 	Castbar.PostChannelUpdate = ns.PostChannelStart
 
-	self.CCastbar = Castbar
+	self.Castbar = Castbar
 end
 
 function ns.PostCastStart(Castbar, unit, castID, spellID)
