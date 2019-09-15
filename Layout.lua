@@ -457,7 +457,11 @@ local function CreateUnitLayout(self, unit)
 		self.PortraitTimer.Icon:SetAllPoints(self.Portrait)
 
 		self.PortraitTimer.Remaining = ns.CreateFontString(self.PortraitTimer, data.por.w/3.5, 'CENTER', 'OUTLINE')
-		self.PortraitTimer.Remaining:SetPoint('CENTER', self.PortraitTimer.Icon)
+		if (self.IsMainFrame) then
+			self.PortraitTimer.Remaining:SetPoint('CENTER', self.PortraitTimer.Icon, 0, -1)
+		else
+			self.PortraitTimer.Remaining:SetPoint('CENTER', self.PortraitTimer.Icon)
+		end
 		self.PortraitTimer.Remaining:SetTextColor(1, 1, 1)
 	end
 
@@ -586,6 +590,19 @@ local function CreateUnitLayout(self, unit)
 		self.RestingIndicator:SetPoint('CENTER', self.Level, -0.5, 0)
 		self.RestingIndicator:SetSize(31, 34)
 		self.RestingIndicator.PostUpdate = updatePlayerStatus
+
+		-- not ready to ship
+		-- Swing Timer
+		-- self.Swing = CreateFrame("Frame", nil, self)
+		-- self.Swing:SetWidth(220)
+		-- self.Swing:SetHeight(20)
+		-- self.Swing:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 100)
+		-- self.Swing.texture = config.statusbar
+		-- self.Swing.color = {1, 0, 0, 0.8}
+		-- self.Swing.textureBG = [=[Interface\TargetingFrame\UI-StatusBar]=]
+		-- self.Swing.colorBG = {0, 0, 0, 0.8}
+		-- self.Swing.hideOoc = true
+		-- ns.CreateBorder(self.Swing, 11, 3)
 	end
 	
 	--[[ 	Target Frame		]]
