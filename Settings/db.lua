@@ -76,7 +76,7 @@ ns.defaultConfig = {
 	textureBorderWhite = "Interface\\AddOns\\oUF_Abu\\Media\\Border\\2borderWhite",
 	textureBorderShadow = "Interface\\AddOns\\oUF_Abu\\Media\\Border\\2borderShadow",
 
-	statusbar = "Interface\\AddOns\\oUF_AbuRaid\\Media\\HalH",
+	statusbar = "Interface\\AddOns\\oUF_Abu\\Media\\Texture\\statusbarHalM",
 	frameColor = {0.5, 0.5, 0.4},
 	playerStyle = "normal",
 	customPlayerTexture = "Interface\\AddOns\\oUF_Abu\\Media\\Frames\\CUSTOMPLAYER-FRAME",
